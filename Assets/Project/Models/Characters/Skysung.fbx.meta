@@ -166,7 +166,7 @@ ModelImporter:
       takeName: Take 001
       internalID: -5059006814000262888
       firstFrame: 192
-      lastFrame: 213
+      lastFrame: 216
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -281,8 +281,8 @@ ModelImporter:
       name: IdleRifleA34
       takeName: Take 001
       internalID: 9093586079265926502
-      firstFrame: 292
-      lastFrame: 399
+      firstFrame: 293
+      lastFrame: 402
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -292,8 +292,37 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: IdleDronCanon
+      takeName: Take 001
+      internalID: -4045831500588228705
+      firstFrame: 584
+      lastFrame: 587
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
