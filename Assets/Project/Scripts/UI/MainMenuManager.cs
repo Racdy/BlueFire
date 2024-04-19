@@ -15,11 +15,22 @@ public class MainMenuManager : MonoBehaviour
     public void CleanPanel()
     {
         NewGamePanel.SetActive(false);
+        ContinuePanel.SetActive(false);
     }
 
     public void ContinueGame()
     {
-        
+        ContinuePanel.SetActive(true);
+    }
+
+    public void ContinueGameYes()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void ContinueGameNo()
+    {
+        ContinuePanel.SetActive(false);
     }
 
     public void NewGame()

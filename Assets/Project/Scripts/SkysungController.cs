@@ -21,8 +21,8 @@ public class SkysungController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Lock;
+        //Cursor.visible = false;
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;   
