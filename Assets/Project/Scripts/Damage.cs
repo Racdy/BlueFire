@@ -11,8 +11,12 @@ public class Damage : MonoBehaviour
     public float maxShield;
     public float currentShield;
 
+    
+
     public LifeShieldBar lifeBar;
     public LifeShieldBar shieldBar;
+
+    public SkysungController skysung;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +26,8 @@ public class Damage : MonoBehaviour
 
         lifeBar.CurrentLife(currentLife);
         shieldBar.CurrentShiedl(currentShield);
+
+        skysung.Dead(currentLife);
     }
 
     // Update is called once per frame
@@ -30,6 +36,7 @@ public class Damage : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)){
             TakeDamage();
         }
+        
     }
 
     void TakeDamage()
@@ -39,5 +46,7 @@ public class Damage : MonoBehaviour
         lifeBar.CurrentLife(currentLife/maxLife);
         shieldBar.CurrentShiedl(currentShield / maxShield);
 
+        skysung.Dead(currentLife);
     }
+
 }
