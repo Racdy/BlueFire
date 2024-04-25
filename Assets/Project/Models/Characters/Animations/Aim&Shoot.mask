@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Aim&Shoot
+  m_Mask: 01000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Principal
+    m_Weight: 0
+  - m_Path: Principal/Columna1
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/Columna4
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/Columna4/Cuello
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/Columna4/Cuello/Cabeza
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/DedosDerecho1
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/DedosDerecho1/DedosDerecho2
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/DedosDerecho1/DedosDerecho2/DedosDerecho3
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/PulgarDerecho1
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/PulgarDerecho1/PulgarDerecho2
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroDerecho/BrazoDerecho/AntebrazoDerecho/ManoDerecha/PulgarDerecho1/PulgarDerecho2/PulgarDerecho3
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/DedosIzquierdo1
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/DedosIzquierdo1/DedosIzquierdo2
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/DedosIzquierdo1/DedosIzquierdo2/DedosIzquierdo3
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/PulgarIzquierdo1
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/PulgarIzquierdo1/PulgarIzquierdo2
+    m_Weight: 1
+  - m_Path: Principal/Columna1/Columna2/Colunma3/HombroIzquierdo/BrazoIzquierdo/AntebrazoIzquierdo/ManoIzquierda/PulgarIzquierdo1/PulgarIzquierdo2/PulgarIzquierdo3
+    m_Weight: 1
+  - m_Path: Principal/Columna1/PelvisDerecho
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisDerecho/PiernaDerecha1
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisDerecho/PiernaDerecha1/PiernaDerecho2
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisDerecho/PiernaDerecha1/PiernaDerecho2/PienDerecho1
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisDerecho/PiernaDerecha1/PiernaDerecho2/PienDerecho1/PieDerecho2
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisIzquierdo
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisIzquierdo/PiernaIzquierda1
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisIzquierdo/PiernaIzquierda1/PiernaIzquierda2
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisIzquierdo/PiernaIzquierda1/PiernaIzquierda2/PieIzquierdo1
+    m_Weight: 0
+  - m_Path: Principal/Columna1/PelvisIzquierdo/PiernaIzquierda1/PiernaIzquierda2/PieIzquierdo1/PieIzquierdo2
+    m_Weight: 0
+  - m_Path: Skysung
+    m_Weight: 0
