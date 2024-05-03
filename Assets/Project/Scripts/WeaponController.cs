@@ -2,117 +2,320 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.ParticleSystemJobs;
 using Cinemachine;
 
 public class WeaponController : MonoBehaviour
 {
+    //ANIMATOR---------------------------------------------------
     public Animator skysungAnimator;
     public AnimatorStateInfo skysungStateInfo;
     public SkysungController skysungController;
 
-    public Image weapongIcon;
+    public AnimatorStateInfo skysungRAInfoHold;
+    public AnimatorStateInfo skysungDCInfoHold;
 
-    public GameObject[] weapons;
+    public AnimatorStateInfo skysungRAInfoAim;
+    public AnimatorStateInfo skysungDCInfoAim;
+
+    private string[] weaponHold = { "Punch", "RifleA34", "DroneCanon" };
+    private int holdIndex;
+
+    private string[] weapongAIM = { "Punch1", "AimingRA34", "AimingDC" };
+    public string[] weapongShootAIM = { "Punch2", "AIMRA34Shoot", "AIMDCShoot" };
+
+    //UI---------------------------------------------------------
+    public Image weapongIcon;
     public Sprite[] weaponIcons;
 
-    public GameObject pointer;
+    public Image crosshairIcon;
+    public Sprite[] crosshair;
 
-    public float bulletDamage;
-    public float bulletForce;
+    //PREFABS----------------------------------------------------
+    public GameObject[] weapons;
+    public int weaponIndex;
+    public int preWeaponIndex;
 
-    public GameObject rifleA34Bullet;
-    private GameObject rifleA34BulletTMP;
-
-    public CinemachineVirtualCamera aimCamera;
+    //CAMERA----------------------------------------------------
+    public CinemachineVirtualCamera aimingCamera;
     public int priorityBoost = 10;
 
+    //EQUIPED--------------------------------------------------
+    private ArrayList weaponsEquiped;
+    private int weaponEquipedIndex;
+    private Sprite[] iconEquiped;
+    private int iconIdex;
+
+    //GRAB WEAPONS LOGIC---------------------------------------
+    private bool isRA34 = false;
+    private bool isDC = false;
+    public bool enableIK;
+    public GameObject weaponGrabbed;
+    public GameObject WeaponDropped;
+    public GameObject[] WeaponsDropped;
+    public string type;
+    public float currtenMunicion;
+    public float getMunicion;
+    public float municion;
+    public bool destroyWeapon;
 
     // Start is called before the first frame update
     void Start()
     {
-        InactiveWeapons();
+        destroyWeapon = false;
+        weaponsEquiped = new ArrayList();
+        iconEquiped = new Sprite[2];
+
         skysungController = GetComponent<SkysungController>();
+
+        InactiveWeapons();
+
+        weaponsEquiped.Add(weapons[0]);
+        weaponsEquiped.Add(weapons[1]);
+        iconEquiped[0] = weaponIcons[0];
+        iconEquiped[1] = weaponIcons[1];
+
+        weaponIndex = 1;
+        holdIndex = 1;
+
+        weaponEquipedIndex = 0;
+        iconIdex = 0;
+
+        crosshairIcon.enabled = false;
+
+
+        skysungRAInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(1);
+        skysungDCInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(2);
+
+        skysungRAInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(3);
+        skysungDCInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(4);
+
+        InvokeRepeating("MouseScroll", 0f,0.01f);
+        InvokeRepeating("ScrollWeapon", 0f, 0.01f);
+        InvokeRepeating("GrabWeapon", 0f, 0.01f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        skysungStateInfo = skysungAnimator.GetCurrentAnimatorStateInfo(1);
+        skysungRAInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(1);
+        skysungDCInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(2);
 
-        if (Input.GetMouseButtonDown(1) && skysungStateInfo.IsName("IdleRifleA34"))
+        skysungRAInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(3);
+        skysungDCInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(4);
+
+
+        if (Input.GetMouseButtonDown(1) && (skysungRAInfoHold.IsName("IdleRifleA34") || skysungDCInfoHold.IsName("IdleDronCanon")))
         {
-            skysungAnimator.SetTrigger("AimingRA34");
-            if(aimCamera.Priority < 10)
-            {
+
+            if (aimingCamera.Priority < 10)
                 StartAIM();
-                skysungController.currentCamera = SkysungController.CameraSyle.COMBAT;
-                
-            }
             else
-            {
                 CancelAIM();
-                skysungController.currentCamera = SkysungController.CameraSyle.BASIC;
-
-            }
         }
 
-        if(Input.GetAxis("Mouse ScrollWheel") < 0){
+        if ((skysungRAInfoAim.IsName("AimingRifleA34") || skysungDCInfoAim.IsName("AimingDC")) && weaponEquipedIndex == 0)
+            CancelAIM();
 
-        }
+        //ShootLogic();
 
-        if (Input.GetKeyDown(KeyCode.E))
+    }
+
+    public void MouseScroll()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") == 0)
+            return;
+
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
-            weapongIcon.sprite = weaponIcons[0];
-            skysungAnimator.SetTrigger("RifleA34");
-            skysungAnimator.SetBool("DroneCanon", false);
-            weapons[0].SetActive(true);
-            weapons[1].SetActive(false);
-        }
+            weaponEquipedIndex = (weaponEquipedIndex + 1) % weaponsEquiped.Count;
+            iconIdex = (iconIdex + 1) % weaponsEquiped.Count;
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            weapongIcon.sprite = weaponIcons[1];
-            skysungAnimator.SetBool("RifleA34", false);
-            skysungAnimator.SetBool("DroneCanon", true);
-            weapons[0].SetActive(false);
-            weapons[1].SetActive(true);
         }
-
-        skysungStateInfo = skysungAnimator.GetCurrentAnimatorStateInfo(3);
-        if (Input.GetMouseButton(0) && ((skysungStateInfo.IsName("AimingRifleA34") || (skysungStateInfo.IsName("AimingShotRifleA34")))))
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            Shoot();
+            weaponEquipedIndex = (weaponEquipedIndex - 1 + weaponsEquiped.Count) % weaponsEquiped.Count;
+            iconIdex = (iconIdex - 1 + weaponsEquiped.Count) % weaponsEquiped.Count;
+        }
+    }
+
+    public void ScrollWeapon()
+    {
+        if (weaponEquipedIndex != 0)
+        {
+            skysungAnimator.SetBool(weaponHold[holdIndex], true);
+            weapons[weaponIndex].SetActive(true);
+            weapongIcon.sprite = iconEquiped[iconIdex];
+
         }
         else
         {
-            skysungAnimator.SetBool("AIMRA34Shoot", false);
+            weapons[weaponIndex].SetActive(false);
+            skysungAnimator.SetBool(weaponHold[holdIndex], false);
+            weapongIcon.sprite = iconEquiped[iconIdex];
+
+        }
+    }
+
+    public void GrabWeapon()
+    {
+
+        if ((skysungRAInfoAim.IsName("AimingRifleA34") || skysungRAInfoAim.IsName("AimingShotRifleA34") || skysungDCInfoAim.IsName("AimingDC") || skysungDCInfoAim.IsName("DCShootAIM")))
+            return;
+
+        if (Input.GetKeyDown(KeyCode.E) && (isRA34 || isDC))
+        {
+            InactiveWeapons();
+
+            grabeItem();
+            weaponEquipedIndex = 1;
+            iconIdex = 1;
+            skysungAnimator.SetBool(weaponHold[holdIndex], true);
+
+            Debug.Log("ITS GRABB! ");
+
         }
     }
 
     void InactiveWeapons()
     {
         for (int i = 0; i < weapons.Length; i++)
-        {
             weapons[i].SetActive(false);
-        }
     }
 
-    void Shoot()
-    {
-        skysungAnimator.SetBool("AIMRA34Shoot", true);
-        rifleA34BulletTMP = Instantiate(rifleA34Bullet, pointer.transform.position, Quaternion.identity);
-        rifleA34BulletTMP.transform.forward = Camera.main.transform.forward;
-        rifleA34BulletTMP.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * bulletForce, ForceMode.Impulse);
-    }
 
     public void StartAIM()
     {
-        aimCamera.Priority += priorityBoost;
+        enableIK = true;
+
+        crosshairIcon.enabled = true;
+
+        aimingCamera.Priority = 11;
+        skysungAnimator.SetBool(weapongAIM[weaponIndex], true);
+        skysungController.currentCamera = SkysungController.CameraSyle.COMBAT;
     }
 
     public void CancelAIM()
     {
-        aimCamera.Priority -= priorityBoost;
+        enableIK = false;
+
+        crosshairIcon.enabled = false;
+
+        aimingCamera.Priority = 9;
+        skysungAnimator.SetBool(weapongAIM[weaponIndex], false);
+        skysungController.currentCamera = SkysungController.CameraSyle.BASIC;
     }
-    
+
+    public void grabeItem()
+    {
+        WeaponType weaponCurrten = weapons[weaponIndex].GetComponent<WeaponType>(); //Arma que tengo equiapada actualmente antes de cambiar
+        type = weaponCurrten.type;                                                  //Tipo del arma
+        currtenMunicion = weaponCurrten.currentMunition;                            //Munición del arma actual
+        Debug.Log("Munición del arma dejada " + currtenMunicion);
+        getMunicion = municion;                                                     //Munición del arma en el suelo
+
+        if (isRA34)
+        {
+            preWeaponIndex = 2;
+            weaponIndex = 1;
+            weaponsEquiped[1] = weapons[weaponIndex];
+            iconEquiped[1] = weaponIcons[weaponIndex];
+            weapongIcon.sprite = weaponIcons[weaponIndex];
+            crosshairIcon.sprite = crosshair[weaponIndex];
+
+            weapons[weaponIndex].SetActive(true);
+            holdIndex = 1;
+            skysungAnimator.SetBool(weaponHold[holdIndex + 1], false);
+
+            DropWeapon();
+        }
+
+        if (isDC)
+        {
+            preWeaponIndex = 1;
+            weaponIndex = 2;
+            weaponsEquiped[1] = weapons[weaponIndex];
+            iconEquiped[1] = weaponIcons[weaponIndex];
+            weapongIcon.sprite = weaponIcons[weaponIndex];
+            crosshairIcon.sprite = crosshair[weaponIndex];
+
+            weapons[weaponIndex].SetActive(true);
+            holdIndex = 2;
+            skysungAnimator.SetBool(weaponHold[holdIndex - 1], false);
+
+            DropWeapon();
+
+        }
+    }
+
+    public void DropWeapon()
+    {
+        WeaponType weaponGrabed = weapons[weaponIndex].GetComponent<WeaponType>();  //Arma recogida. Puede ser diferente o la misma;
+
+        if ((isDC && (type == "RifleA34")) || (isRA34 && (type == "DroneCanon"))) //Diferente arma a la que tengo equipada. Debo desactivar e instanciar
+        {                                                                       //dejando la munición de la otra arma y asignando la nueva
+            destroyWeapon = true;
+            weaponGrabed.currentMunition = getMunicion; //Se asigna la munición del arma recogida el arma que se recogió
+            WeaponDropped = Instantiate(WeaponsDropped[preWeaponIndex], transform.position,Quaternion.identity);  //Se instancia la arma soltado
+            WeaponDropped.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized * 2f, ForceMode.Impulse);
+            PickUpController pickUpController = WeaponDropped.GetComponent<PickUpController>(); 
+            pickUpController.currentMunicion = currtenMunicion;//A la arma soltada se le asgina la munición que tenía previamente
+            
+
+        }
+        else //Misma arma. Debo calcular las nuevas balas
+        {
+            Debug.Log("Munición restante " + weaponGrabed.PickUpMunicion());
+            if(weaponGrabed.PickUpMunicion() <= 0)
+            {
+                destroyWeapon = true;
+                Debug.Log("DESTROY agarrar munición");
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) //Sistema de trigger
+    {
+        destroyWeapon = false;
+        if (other.CompareTag("DroppedRA34"))
+        {
+            isRA34 = true;
+            PickUpController ra34 = other.GetComponent<PickUpController>();
+            Debug.Log("Munición actual " + ra34.currentMunicion);
+            municion = ra34.currentMunicion;
+        }
+
+        if (other.CompareTag("DroppedDC"))
+        {
+            isDC = true;
+            PickUpController DC34 = other.GetComponent<PickUpController>();
+            Debug.Log("Munición actual " + DC34.currentMunicion);
+            municion = DC34.currentMunicion;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("DroppedRA34"))
+            isRA34 = false;
+
+        if (other.CompareTag("DroppedDC"))
+            isDC = false;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("DroppedRA34") && destroyWeapon)
+        {
+            isRA34 = false;
+            Destroy(other.gameObject);
+        }
+
+        if (other.CompareTag("DroppedDC") && destroyWeapon)
+        {
+            isDC = false;
+            Destroy(other.gameObject);
+        }
+    }
 }

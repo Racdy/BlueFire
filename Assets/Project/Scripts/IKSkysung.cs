@@ -6,7 +6,9 @@ public class IKSkysung : MonoBehaviour
 {
 
     public Animator skysungAnimator;
-    public AnimatorStateInfo skysungStateInfo;
+    public AnimatorStateInfo skysungRAInfo;
+    public AnimatorStateInfo skysungDCInfo;
+    public WeaponController IK;
 
     /*public float IKWeight;
     public float IKBody;
@@ -26,9 +28,10 @@ public class IKSkysung : MonoBehaviour
 
     private void OnAnimatorIK(int layerIndex)
     {
-        skysungStateInfo = skysungAnimator.GetCurrentAnimatorStateInfo(3);
+        skysungRAInfo = skysungAnimator.GetCurrentAnimatorStateInfo(3);
+        skysungDCInfo = skysungAnimator.GetCurrentAnimatorStateInfo(4);
 
-        if (skysungStateInfo.IsName("AimingRifleA34") || skysungStateInfo.IsName("AimingShotRifleA34"))
+        if (IK.enableIK)
         {
 
             Ray lockAtRay = new Ray(transform.position, Camera.main.transform.forward);
@@ -37,14 +40,17 @@ public class IKSkysung : MonoBehaviour
             skysungAnimator.SetLookAtPosition(lockAtRay.GetPoint(50));
             skysungAnimator.SetLookAtWeight(1f, 1f, 1f, 1f, 0.5f);
 
-            skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(-0.71f, -19.8f, 1.93f));
-            if (skysungStateInfo.IsName("AimingRifleA34")){
-                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(-0.71f, -19.8f, 1.93f));
-            }
-            else if(skysungStateInfo.IsName("AimingShotRifleA34"))
-            {
-                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(0f, -9F, 0f));
-            }
+            //skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(-0.71f, -19.8f, 1.93f));
+
+            if (skysungRAInfo.IsName("AimingRifleA34"))
+                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(-1.72f, -10, 1.42f));
+            else if(skysungRAInfo.IsName("AimingShotRifleA34"))
+                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(0f, 0f, 1.42f));
+            else if (skysungDCInfo.IsName("AimingDC"))
+                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(13.84f,-20.33f,22.4f));
+            else if (skysungDCInfo.IsName("DCShootAIM"))
+                skysungAnimator.SetBoneLocalRotation(HumanBodyBones.RightHand, Quaternion.Euler(13.84f, -20.33f, 22.4f));
+            
         }
 
     }

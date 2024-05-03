@@ -4,29 +4,27 @@ using UnityEngine;
 
 public class BulletsController : MonoBehaviour
 {
+    public GameObject decalBulletHole;
+    public Vector3 target;
+    public bool hit;
 
-
-
-    public Animator skysungAnimator;
-
-
-    public bool shooting;
-
-    // Start is called before the first frame update
-    void Start()
+    public void OnEnable()
     {
-        
+        Destroy(gameObject,3f);
     }
 
-    // Update is called once per frame
-    void Update()
+    /*private void Update()
     {
+        transform.position = Vector3.MoveTowards(transform.position, target, 1f * Time.deltaTime);
+    }*/
 
-        
+    private void OnCollisionEnter(Collision other)
+    {
+        Instantiate(decalBulletHole,
+                     other.contacts[0].point + new Vector3(0.002f, 0.002f, -0.002f),
+                     Quaternion.FromToRotation(Vector3.back, other.contacts[0].normal));
+
+        Destroy(gameObject);
     }
 
-    void Shoot()
-    {
-
-    }
 }
