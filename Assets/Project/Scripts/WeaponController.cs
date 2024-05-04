@@ -42,7 +42,7 @@ public class WeaponController : MonoBehaviour
 
     //EQUIPED--------------------------------------------------
     private ArrayList weaponsEquiped;
-    private int weaponEquipedIndex;
+    public int weaponEquipedIndex;
     private Sprite[] iconEquiped;
     private int iconIdex;
 

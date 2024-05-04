@@ -155,6 +155,8 @@ public class WeaponType : MonoBehaviour
     void ReloadFinished()
     {
         bullestLeft = magazineSize;
+        if (bullestLeft > currentMunition)
+            bullestLeft = currentMunition;
         reloading = false;
     }
 
