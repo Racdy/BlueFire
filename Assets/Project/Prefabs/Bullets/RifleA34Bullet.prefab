@@ -218,6 +218,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RifleA34Bullet
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f07cc47995b5c0147a7ab78c835e8bc2, type: 3}
+      propertyPath: m_TagString
+      value: PlayerRA34Bullet
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -273,9 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc76eea7040c84641b9049093169970e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  decalBulletHole: {fileID: 2271470527663963301, guid: 37eb37d8c9afa9646a24876cfadb0208, type: 3}
-  target: {x: 0, y: 0, z: 0}
-  hit: 0
+  decalBulletHolePrefab: {fileID: 2271470527663963301, guid: 37eb37d8c9afa9646a24876cfadb0208, type: 3}
+  impactBulletPrefab: {fileID: 1046455342052896097, guid: b5f6fd6fec9b8bb4f9a88d66b2e15969, type: 3}
+  bulletDamage: 10
 --- !u!54 &-3335225922609534418
 Rigidbody:
   m_ObjectHideFlags: 0

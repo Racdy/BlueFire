@@ -1,30 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class BulletsController : MonoBehaviour
 {
-    public GameObject decalBulletHole;
-    public Vector3 target;
-    public bool hit;
+    public GameObject decalBulletHolePrefab;
+    public GameObject impactBulletPrefab;
+    public int bulletDamage;
 
     public void OnEnable()
     {
-        Destroy(gameObject,3f);
+        Invoke("bulletLife",2f);
     }
 
-    /*private void Update()
+
+    void bulletLife()
     {
-        transform.position = Vector3.MoveTowards(transform.position, target, 1f * Time.deltaTime);
-    }*/
+        ObjectPool.Instance.PoolGameObject(gameObject);
+    }
 
     private void OnCollisionEnter(Collision other)
     {
-        Instantiate(decalBulletHole,
-                     other.contacts[0].point + new Vector3(0.002f, 0.002f, -0.002f),
-                     Quaternion.FromToRotation(Vector3.back, other.contacts[0].normal));
+        if (other.gameObject.TryGetComponent<EnemyLife>(out EnemyLife enemyComponent))
+        {
+            enemyComponent.TakeDamage(bulletDamage);
+        }
 
-        Destroy(gameObject);
+        GameObject impactBullet = ObjectPool.Instance.GetGameObjectOfType(impactBulletPrefab.name,true);
+        impactBullet.transform.position = other.contacts[0].point;
+        impactBullet.transform.rotation = Quaternion.identity;
+        impactBullet.SetActive(true);
+
+        GameObject decalBulletHole = ObjectPool.Instance.GetGameObjectOfType(decalBulletHolePrefab.name, true);
+        decalBulletHole.transform.position = other.contacts[0].point + new Vector3(0.002f, 0.002f, -0.002f);
+        decalBulletHole.transform.rotation = Quaternion.FromToRotation(Vector3.back, other.contacts[0].normal);
+        decalBulletHole.SetActive(true);
+        
+        ObjectPool.Instance.PoolGameObject(gameObject);
+
+
     }
 
 }

@@ -30,8 +30,8 @@ public class SkysungController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
@@ -130,7 +130,7 @@ public class SkysungController : MonoBehaviour
                 
             }
 
-            if (Input.GetKeyDown(KeyCode.Q) && isGrounded)
+            if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
             {
                 skysungAnimator.SetTrigger("Run");
                 skysungAnimator.SetInteger("Speed", 10);
@@ -139,6 +139,7 @@ public class SkysungController : MonoBehaviour
         }
         else if (currentCamera == CameraSyle.COMBAT)
         {
+            speed = 2f;
             Vector3 combatDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
                               + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
 

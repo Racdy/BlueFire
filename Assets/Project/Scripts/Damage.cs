@@ -25,21 +25,15 @@ public class Damage : MonoBehaviour
         lifeBar.CurrentLife(currentLife);
         shieldBar.CurrentShiedl(currentShield);
 
-        //skysung.Dead(currentLife);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damageAmount)
     {
-        if (Input.GetKeyDown(KeyCode.Q)){
-            TakeDamage();
-        }
-    }
-
-    void TakeDamage()
-    {
-        currentLife -= 10;
-        currentShield -= 10;
+        if(currentShield > 0)
+            currentShield -= damageAmount;
+        else
+            currentLife -= damageAmount;
+        
         lifeBar.CurrentLife(currentLife/maxLife);
         shieldBar.CurrentShiedl(currentShield / maxShield);
 

@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DCBullet
       objectReference: {fileID: 0}
+    - target: {fileID: 8274968270702301292, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
+      propertyPath: m_TagString
+      value: PlayerDCBullet
+      objectReference: {fileID: 0}
     - target: {fileID: 8763238928454421206, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.10842328
@@ -140,6 +144,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8972475862575150533, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
+      propertyPath: bulletDamage
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8972475862575150533, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
+      propertyPath: impactBullet
+      value: 
+      objectReference: {fileID: 1046455342052896097, guid: b5f6fd6fec9b8bb4f9a88d66b2e15969, type: 3}
+    - target: {fileID: 8972475862575150533, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
+      propertyPath: impactBulletPrefab
+      value: 
+      objectReference: {fileID: 1046455342052896097, guid: b5f6fd6fec9b8bb4f9a88d66b2e15969, type: 3}
+    - target: {fileID: 8972475862575150533, guid: 9e9b934a1bfb5544d9401426c77e5828, type: 3}
+      propertyPath: decalBulletHolePrefab
+      value: 
+      objectReference: {fileID: 2271470527663963301, guid: 37eb37d8c9afa9646a24876cfadb0208, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

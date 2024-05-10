@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class PickUpController : MonoBehaviour
 {
-    public float allMunicion;
-    public float currentMunicion;
+    public float allMunicion; //Toda la munición del arma en suelo
+    public float currentMunicion; //La munición actual con la que se quedó el arma
+
+
     private BoxCollider col;
     private Component rb;
     public string weaponType;
@@ -33,16 +35,11 @@ public class PickUpController : MonoBehaviour
         groundBack = transform.TransformDirection(Vector3.back);
         groundForward = transform.TransformDirection(Vector3.forward);
 
-        Debug.DrawRay(transform.position, groundLeft);
-        Debug.DrawRay(transform.position, groundRigt);
-        Debug.DrawRay(transform.position, groundBack);
-        Debug.DrawRay(transform.position, groundForward);
-
         if (weaponType == "DroneCanon")
         {
             if ((Physics.Raycast(transform.position, groundLeft, .07f, ~ignoreLayer) || (Physics.Raycast(transform.position, groundRigt, .07f, ~ignoreLayer))))
             {
-                Debug.Log("DESTRUCCION DE RIGI del Dronen");
+                //Debug.Log("DESTRUCCION DE RIGI del Dronen");
                 Destroy(rb);
                 col.isTrigger = true;
                 col.size = new Vector3(1f, 1f, 1f);
@@ -51,9 +48,9 @@ public class PickUpController : MonoBehaviour
         }
         else if (weaponType == "RifleA34")
         {
-            if ((Physics.Raycast(transform.position, groundBack, .07f, ~ignoreLayer) || (Physics.Raycast(transform.position, groundForward, .08f, ~ignoreLayer))))
+            if ((Physics.Raycast(transform.position, groundBack, .08f, ~ignoreLayer) || (Physics.Raycast(transform.position, groundForward, .08f, ~ignoreLayer))))
             {
-                Debug.Log("DESTRUCCION DE RIGI del RA34");
+                //Debug.Log("DESTRUCCION DE RIGI del RA34");
                 Destroy(rb);
                 col.isTrigger = true;
                 col.size = new Vector3(1f, 1f, 1f);
@@ -62,7 +59,7 @@ public class PickUpController : MonoBehaviour
         }
         else
         {
-            Debug.Log("cayendo");
+            //Debug.Log("cayendo");
             col.isTrigger = false;
         }
     }

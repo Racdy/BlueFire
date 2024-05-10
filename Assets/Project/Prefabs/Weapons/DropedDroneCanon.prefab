@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allMunicion: 100
-  currentMunicion: 0
+  currentMunicion: 20
   weaponType: DroneCanon
   ignoreLayer:
     serializedVersion: 2

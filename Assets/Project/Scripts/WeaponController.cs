@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.ParticleSystemJobs;
 using Cinemachine;
+using System.Security.Claims;
 
 public class WeaponController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class WeaponController : MonoBehaviour
 
     private string[] weapongAIM = { "Punch1", "AimingRA34", "AimingDC" };
     public string[] weapongShootAIM = { "Punch2", "AIMRA34Shoot", "AIMDCShoot" };
+
+    public string[] weaponShootTorso = { "Punch3", "TorsoRA34", "TorsoDC" };
 
     //UI---------------------------------------------------------
     public Image weapongIcon;
@@ -58,10 +61,16 @@ public class WeaponController : MonoBehaviour
     public float getMunicion;
     public float municion;
     public bool destroyWeapon;
+    public float newMunicionActual;
+    public bool isGetNewMunicion;
+
+    public bool isAIM;
 
     // Start is called before the first frame update
     void Start()
     {
+        isGetNewMunicion = false;
+        isAIM = false;
         destroyWeapon = false;
         weaponsEquiped = new ArrayList();
         iconEquiped = new Sprite[2];
@@ -92,7 +101,7 @@ public class WeaponController : MonoBehaviour
 
         InvokeRepeating("MouseScroll", 0f,0.01f);
         InvokeRepeating("ScrollWeapon", 0f, 0.01f);
-        InvokeRepeating("GrabWeapon", 0f, 0.01f);
+        InvokeRepeating("GrabWeapon", 0f, 0.09f);
     }
 
     // Update is called once per frame
@@ -172,7 +181,7 @@ public class WeaponController : MonoBehaviour
             iconIdex = 1;
             skysungAnimator.SetBool(weaponHold[holdIndex], true);
 
-            Debug.Log("ITS GRABB! ");
+            //Debug.Log("ITS GRABB! ");
 
         }
     }
@@ -186,6 +195,7 @@ public class WeaponController : MonoBehaviour
 
     public void StartAIM()
     {
+        isAIM = true;
         enableIK = true;
 
         crosshairIcon.enabled = true;
@@ -197,6 +207,7 @@ public class WeaponController : MonoBehaviour
 
     public void CancelAIM()
     {
+        isAIM = false;
         enableIK = false;
 
         crosshairIcon.enabled = false;
@@ -208,12 +219,17 @@ public class WeaponController : MonoBehaviour
 
     public void grabeItem()
     {
-        WeaponType weaponCurrten = weapons[weaponIndex].GetComponent<WeaponType>(); //Arma que tengo equiapada actualmente antes de cambiar
-        type = weaponCurrten.type;                                                  //Tipo del arma
-        currtenMunicion = weaponCurrten.currentMunition;                            //Munición del arma actual
-        Debug.Log("Munición del arma dejada " + currtenMunicion);
-        getMunicion = municion;                                                     //Munición del arma en el suelo
+        //Antes de cambiar arma. Se obtiene la información del arma que está equipada actualmente
 
+        WeaponType weaponCurrten = weapons[weaponIndex].GetComponent<WeaponType>(); //Arma que tengo equiapada actualmente antes de cambiar
+        type = weaponCurrten.type;                                                  //Tipo del arma (RifleA34 o DroneCanon
+        currtenMunicion = weaponCurrten.currentMunition;                            //Munición del arma actual. Se asigna a la varible 'currtenMunicion'
+        //Debug.Log("Munición del arma dejada " + currtenMunicion);
+        getMunicion = municion;                                                     //Munición del arma en el suelo. Obtenida en OnTriggerEnter
+        Debug.Log("WeapongController: Municion del arma de suelo" + municion);
+
+
+        //Dependiendo del arma que se recogerá se asigna la configuración deseada
         if (isRA34)
         {
             preWeaponIndex = 2;
@@ -227,7 +243,7 @@ public class WeaponController : MonoBehaviour
             holdIndex = 1;
             skysungAnimator.SetBool(weaponHold[holdIndex + 1], false);
 
-            DropWeapon();
+            DropWeapon(); 
         }
 
         if (isDC)
@@ -250,46 +266,75 @@ public class WeaponController : MonoBehaviour
 
     public void DropWeapon()
     {
+        //Es posible 'recoger' la misma arma, en estos casos simplemente se le añadirá la munición que el arma en suelo tenga
+        //en caso de que la munición del arma en suelo sea 0, la misma desaparece
+        //Es posible recoger un arma distinta RifleA34 -> DroneCanon ó DroneCanon -> RifleA34. En este caso, se usa la información
+        //almacenada del arma que tiene equipada para dropearla con la información integrada y asignar la información del arma que esta en suelo
+
+        //Se obtiene mas información (WeponType) del arma en suelo
         WeaponType weaponGrabed = weapons[weaponIndex].GetComponent<WeaponType>();  //Arma recogida. Puede ser diferente o la misma;
+
 
         if ((isDC && (type == "RifleA34")) || (isRA34 && (type == "DroneCanon"))) //Diferente arma a la que tengo equipada. Debo desactivar e instanciar
         {                                                                       //dejando la munición de la otra arma y asignando la nueva
-            destroyWeapon = true;
-            weaponGrabed.currentMunition = getMunicion; //Se asigna la munición del arma recogida el arma que se recogió
-            WeaponDropped = Instantiate(WeaponsDropped[preWeaponIndex], transform.position,Quaternion.identity);  //Se instancia la arma soltado
-            WeaponDropped.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized * 2f, ForceMode.Impulse);
-            PickUpController pickUpController = WeaponDropped.GetComponent<PickUpController>(); 
-            pickUpController.currentMunicion = currtenMunicion;//A la arma soltada se le asgina la munición que tenía previamente
             
+            weaponGrabed.currentMunition = getMunicion; //Se asigna la munición del arma recogida 'getMunicion' como municion del arma equipada 
+
+            WeaponDropped = Instantiate(WeaponsDropped[preWeaponIndex], transform.position,Quaternion.identity);  //Se instancia la arma soltada
+            WeaponDropped.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward.normalized * 2f, ForceMode.Impulse); // Se crea un impulso para arrojar el arma
+            PickUpController pickUpController = WeaponDropped.GetComponent<PickUpController>();  //Se obtiene la componente PickUpController del arma soltada para asignar la 
+                                                                                                 //la información del arma soltada
+            pickUpController.currentMunicion = currtenMunicion;//A la arma soltada se le asgina la munición 'currentMunicio' que tenía equipada previamente
+            destroyWeapon = true; //Se indica que el arma debe ser destruida
 
         }
         else //Misma arma. Debo calcular las nuevas balas
-        {
-            Debug.Log("Munición restante " + weaponGrabed.PickUpMunicion());
-            if(weaponGrabed.PickUpMunicion() <= 0)
+        {   //Si el arma al que se le obtuvo la munición es 0, el arma debe ser destruida
+
+            //Debug.Log("Munición restante " + weaponGrabed.PickUpMunicion());
+            newMunicionActual = weaponGrabed.PickUpMunicion(getMunicion);
+
+            if (newMunicionActual <= 0)
             {
                 destroyWeapon = true;
-                Debug.Log("DESTROY agarrar munición");
+                //Debug.Log("DESTROY agarrar munición");
             }
+            else 
+            {
+                //Se obtiene el restante de munición y se almacena el isGetrNeMunicion. Se envia a OnTriggerStay()
+                isGetNewMunicion= true;
+            }
+            Debug.Log("WeapongController: Munición devuelta: " + newMunicionActual);
+
+
         }
     }
 
     private void OnTriggerEnter(Collider other) //Sistema de trigger
     {
         destroyWeapon = false;
+
+        //Se obtiene la componente PickUpController (información de munición)
+        //y se asgina a 'municion' la informacion de la cantidad de municion que contiene el arma (currentMunicion)
+        //(PUEDE QUE allMunition de PickUpController NO SE OCUPE)
+
+        //En caso de que se recoja el arma; Ir al método grabeItem()
+
         if (other.CompareTag("DroppedRA34"))
         {
             isRA34 = true;
+            isDC = false;//Se hace este cambio en isDC para no estar tomando ambas armas
             PickUpController ra34 = other.GetComponent<PickUpController>();
-            Debug.Log("Munición actual " + ra34.currentMunicion);
+            //Debug.Log("Munición actual " + ra34.currentMunicion);
             municion = ra34.currentMunicion;
+            Debug.Log("OnTriggerEnter: MUNICION DE ARMA EN SUELO " + municion);
         }
 
         if (other.CompareTag("DroppedDC"))
         {
             isDC = true;
             PickUpController DC34 = other.GetComponent<PickUpController>();
-            Debug.Log("Munición actual " + DC34.currentMunicion);
+            //Debug.Log("Munición actual " + DC34.currentMunicion);
             municion = DC34.currentMunicion;
         }
 
@@ -297,6 +342,7 @@ public class WeaponController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        destroyWeapon = false;
         if (other.CompareTag("DroppedRA34"))
             isRA34 = false;
 
@@ -306,16 +352,29 @@ public class WeaponController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("DroppedRA34") && destroyWeapon)
+        if (other.CompareTag("DroppedRA34") && isGetNewMunicion)
         {
-            isRA34 = false;
-            Destroy(other.gameObject);
+            Debug.Log("STAY en RA");
+            PickUpController ra34 = other.GetComponent<PickUpController>();
+            ra34.currentMunicion = newMunicionActual;
+            isGetNewMunicion = false;
+            if (destroyWeapon)
+            {
+                isRA34 = false;
+                Destroy(other.gameObject);
+            }
         }
 
-        if (other.CompareTag("DroppedDC") && destroyWeapon)
+        if (other.CompareTag("DroppedDC") && isGetNewMunicion)
         {
-            isDC = false;
-            Destroy(other.gameObject);
+            PickUpController DC34 = other.GetComponent<PickUpController>();
+            DC34.currentMunicion = newMunicionActual;
+            isGetNewMunicion = false;
+            if (destroyWeapon)
+            {
+                isDC = false;
+                Destroy(other.gameObject);
+            }
         }
     }
 }
