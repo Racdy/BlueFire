@@ -104,7 +104,7 @@ public class SkysungController : MonoBehaviour
 
 
 
-            if (Physics.Raycast(transform.position, ground, 1.03f))
+            if (Physics.Raycast(transform.position, ground, 1.3f))
             {
                 isGrounded = true;
                 skysungAnimator.SetBool("IsGrounded", true);
@@ -159,7 +159,7 @@ public class SkysungController : MonoBehaviour
 
             Vector3 ground = transform.TransformDirection(Vector3.down);
 
-            if (Physics.Raycast(transform.position, ground, 1.03f))
+            if (Physics.Raycast(transform.position, ground, 1.1f))
             {
                 isGrounded = true;
                 skysungAnimator.SetBool("IsGrounded", true);

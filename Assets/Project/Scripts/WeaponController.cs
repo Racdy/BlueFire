@@ -101,7 +101,7 @@ public class WeaponController : MonoBehaviour
 
         InvokeRepeating("MouseScroll", 0f,0.01f);
         InvokeRepeating("ScrollWeapon", 0f, 0.01f);
-        InvokeRepeating("GrabWeapon", 0f, 0.09f);
+        InvokeRepeating("GrabWeapon", 0f, 0.015f);
     }
 
     // Update is called once per frame
@@ -352,12 +352,16 @@ public class WeaponController : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("DroppedRA34") && isGetNewMunicion)
+        if (other.CompareTag("DroppedRA34"))
         {
+            if (isGetNewMunicion)
+            {
+                PickUpController ra34 = other.GetComponent<PickUpController>();
+                ra34.currentMunicion = newMunicionActual;
+                isGetNewMunicion = false;
+            }
             Debug.Log("STAY en RA");
-            PickUpController ra34 = other.GetComponent<PickUpController>();
-            ra34.currentMunicion = newMunicionActual;
-            isGetNewMunicion = false;
+            
             if (destroyWeapon)
             {
                 isRA34 = false;
@@ -365,11 +369,15 @@ public class WeaponController : MonoBehaviour
             }
         }
 
-        if (other.CompareTag("DroppedDC") && isGetNewMunicion)
+        if (other.CompareTag("DroppedDC"))
         {
-            PickUpController DC34 = other.GetComponent<PickUpController>();
-            DC34.currentMunicion = newMunicionActual;
-            isGetNewMunicion = false;
+            if (isGetNewMunicion)
+            {
+                PickUpController DC34 = other.GetComponent<PickUpController>();
+                DC34.currentMunicion = newMunicionActual;
+                isGetNewMunicion = false;
+            }
+
             if (destroyWeapon)
             {
                 isDC = false;
