@@ -9,7 +9,7 @@ public class GuardianBehaviour : MonoBehaviour
     public Animator guardianAnimator;
     public NavMeshAgent agent;
 
-    public GameObject player;
+    private GameObject player;
     private Transform playerTransform;
 
     public GuardianState guardianState;
@@ -37,6 +37,7 @@ public class GuardianBehaviour : MonoBehaviour
         guardianAnimator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+        player = GameObject.FindGameObjectWithTag("PlayerPrincipal");
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
         guardianState = GuardianState.PATROL;

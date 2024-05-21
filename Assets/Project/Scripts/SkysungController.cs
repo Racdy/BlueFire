@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Claims;
 using UnityEngine;
 using UnityEngine.U2D;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
@@ -7,6 +8,8 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class SkysungController : MonoBehaviour
 {
     public Transform playerObj;
+    public Transform combatlLock;
+    public Transform orientationLock;
 
     public float speed = 0f;
     public float rotationSpeed = 0f;
@@ -24,20 +27,22 @@ public class SkysungController : MonoBehaviour
 
     public CameraSyle currentCamera;
 
+    private bool isAIM;
+
     //ParticlesSystem-------------------------------
     public ParticlesSkysung ps;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
         dobleJumpCount = 0;
-        
+        isAIM=false;
     }
 
     // Update is called once per frame
@@ -70,13 +75,21 @@ public class SkysungController : MonoBehaviour
         //Movimiento horizontal y vertical del jugador
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-
-        //Se crea un vector que tiene como valores la vista de frente e izquierda dada por la cámara, junto con los valores de entrada vertical y horizontal
-        Vector3 inputDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
-                           + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
+        
+        
         dobleJump = false;
         if (currentCamera == CameraSyle.BASIC)
         {
+            if (isAIM)
+            {
+                speed = 5f;
+                isAIM = false;
+            }
+
+            //Se crea un vector que tiene como valores la vista de frente e izquierda dada por la cámara, junto con los valores de entrada vertical y horizontal
+            Vector3 inputDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
+                               + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
+
             //Cuando se encuentre en movieminto el personaje, se activará la animación Walk y se rotará el movimiento y modelo según el frente de la cámara 
             if (inputDir != Vector3.zero)
             {
@@ -109,8 +122,7 @@ public class SkysungController : MonoBehaviour
                 isGrounded = true;
                 skysungAnimator.SetBool("IsGrounded", true);
                 //Debug.Log("piso");
-                dobleJumpCount = 0;
-
+                  
             }
             else
             {
@@ -118,28 +130,40 @@ public class SkysungController : MonoBehaviour
                 skysungAnimator.SetBool("IsGrounded", false);
                 if (dobleJumpCount < 2)
                     dobleJump = true;
+
             }
+            if (Physics.Raycast(transform.position, ground, 0.985f))
+                dobleJumpCount = 0;
 
             if ((Input.GetKeyDown(KeyCode.Space) && (isGrounded || dobleJump)))
             {
-                rb.AddForce(new Vector3(0, forceJump, 0), ForceMode.Impulse);
                 skysungAnimator.SetTrigger("Jump");
                 if (dobleJumpCount > 0)
                     ps.activate();
                 dobleJumpCount++;
+                rb.AddForce(new Vector3(0, forceJump, 0), ForceMode.Impulse);
                 
+
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
             {
-                skysungAnimator.SetTrigger("Run");
+                //skysungAnimator.SetTrigger("Run");
                 skysungAnimator.SetInteger("Speed", 10);
                 speed = 10f;
             }
         }
         else if (currentCamera == CameraSyle.COMBAT)
         {
+            isAIM = true;
             speed = 2f;
+
+            //Vector3 combatDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
+            //                  + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
+
+            Vector3 viewDir = transform.position - new Vector3(transform.position.x, playerObj.transform.position.y, transform.position.z);
+            orientationLock.forward = viewDir.normalized;
+
             Vector3 combatDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
                               + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
 

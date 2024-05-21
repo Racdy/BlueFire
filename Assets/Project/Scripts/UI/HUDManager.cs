@@ -27,8 +27,8 @@ public class HUDManager : MonoBehaviour
     public void Pause()
     {
         CleanPanel();
-        //Cursor.lockState = CursorLockMode.Confined;
-        //Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0.0f;
     }

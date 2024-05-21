@@ -8,6 +8,8 @@ TagManager:
   - DroppedDC
   - PlayerRA34Bullet
   - PlayerDCBullet
+  - PlayerPrincipal
+  - Barrer
   layers:
   - Default
   - TransparentFX

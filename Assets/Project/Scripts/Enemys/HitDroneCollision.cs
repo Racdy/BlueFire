@@ -19,6 +19,6 @@ public class HitDroneCollision : MonoBehaviour
         impactBullet.transform.rotation = Quaternion.identity;
         impactBullet.SetActive(true);
 
-        Debug.Log("Colision");
+        //Debug.Log("Colision");
     }
 }
