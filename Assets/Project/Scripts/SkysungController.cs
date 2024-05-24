@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -8,8 +9,6 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 public class SkysungController : MonoBehaviour
 {
     public Transform playerObj;
-    public Transform combatlLock;
-    public Transform orientationLock;
 
     public float speed = 0f;
     public float rotationSpeed = 0f;
@@ -31,6 +30,8 @@ public class SkysungController : MonoBehaviour
 
     //ParticlesSystem-------------------------------
     public ParticlesSkysung ps;
+
+    public bool isTuto;
 
     // Start is called before the first frame update
     void Start()
@@ -72,6 +73,7 @@ public class SkysungController : MonoBehaviour
 
     public void Movement()
     {
+
         //Movimiento horizontal y vertical del jugador
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -97,7 +99,7 @@ public class SkysungController : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up));
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
-                if (Input.GetKeyDown(KeyCode.C) && dash)
+                if (Input.GetKeyDown(KeyCode.C) && dash && !isTuto)
                 {
                     rb.AddForce(inputDir * 500, ForceMode.Impulse);
                     skysungAnimator.SetTrigger("Dash");
@@ -135,6 +137,10 @@ public class SkysungController : MonoBehaviour
             if (Physics.Raycast(transform.position, ground, 0.985f))
                 dobleJumpCount = 0;
 
+            if (isTuto)
+                dobleJump = false;
+
+
             if ((Input.GetKeyDown(KeyCode.Space) && (isGrounded || dobleJump)))
             {
                 skysungAnimator.SetTrigger("Jump");
@@ -155,17 +161,13 @@ public class SkysungController : MonoBehaviour
         }
         else if (currentCamera == CameraSyle.COMBAT)
         {
+            skysungAnimator.SetInteger("Speed", 5);
             isAIM = true;
             speed = 2f;
 
-            //Vector3 combatDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
-            //                  + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
-
-            Vector3 viewDir = transform.position - new Vector3(transform.position.x, playerObj.transform.position.y, transform.position.z);
-            orientationLock.forward = viewDir.normalized;
-
             Vector3 combatDir = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up) * verticalInput
                               + Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up) * horizontalInput;
+
 
             transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up));
             playerObj.forward = Vector3.Slerp(playerObj.forward, Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized, Time.deltaTime * rotationSpeed);
@@ -200,5 +202,7 @@ public class SkysungController : MonoBehaviour
         //crea un movimiento con rigidbody, usando las entradas vertical y horizontal
         Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput) * speed * Time.deltaTime;
         rb.MovePosition(rb.position + transform.TransformDirection(movement));
+
+
     }
 }

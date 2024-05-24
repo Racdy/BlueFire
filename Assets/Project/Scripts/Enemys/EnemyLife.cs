@@ -38,7 +38,7 @@ public class EnemyLife : MonoBehaviour
         isDead = true;
         animator.SetBool("Death", true);
         yield return new WaitForSeconds(3f);
-        Destroy(gameObject);
+        ObjectPool.Instance.PoolGameObject(gameObject);
     }
 
     IEnumerator Cover()

@@ -23,6 +23,13 @@ public class SentinelBehaviour : MonoBehaviour
 
     public EnemyLife enemyLife;
 
+    public ParticleSystem spawnParticles;
+
+    private void OnEnable()
+    {
+        spawnParticles.Play();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

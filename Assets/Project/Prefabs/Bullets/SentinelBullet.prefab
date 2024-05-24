@@ -196,4 +196,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decalBulletHolePrefab: {fileID: 2271470527663963301, guid: 37eb37d8c9afa9646a24876cfadb0208, type: 3}
   impactBulletPrefab: {fileID: 1046455342052896097, guid: b5f6fd6fec9b8bb4f9a88d66b2e15969, type: 3}
-  bulletDamage: 50
+  bulletDamage: 35

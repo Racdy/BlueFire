@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_CustomBlends:
   - m_From: Basic
-    m_To: Combat (1)
+    m_To: Combat
     m_Blend:
       m_Style: 6
-      m_Time: 1
+      m_Time: 0.1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
         m_PreInfinity: 0
         m_PostInfinity: 0
         m_RotationOrder: 0
-  - m_From: Combat (1)
+  - m_From: Combat
     m_To: Basic
     m_Blend:
       m_Style: 6
-      m_Time: 1
+      m_Time: 0.1
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []

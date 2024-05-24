@@ -24,7 +24,14 @@ public class DroneBehaviour : MonoBehaviour
 
     public EnemyLife enemyLife;
 
+    public ParticleSystem spawnParticles;
+
     // Start is called before the first frame update
+
+    private void OnEnable()
+    {
+        spawnParticles.Play();
+    }
     void Start()
     {
         enemyLife = GetComponent<EnemyLife>();

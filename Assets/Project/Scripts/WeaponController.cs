@@ -66,6 +66,8 @@ public class WeaponController : MonoBehaviour
 
     public bool isAIM;
 
+    public bool isTuto;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,10 +100,12 @@ public class WeaponController : MonoBehaviour
 
         skysungRAInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(3);
         skysungDCInfoAim = skysungAnimator.GetCurrentAnimatorStateInfo(4);
-
-        InvokeRepeating("MouseScroll", 0f,0.01f);
-        InvokeRepeating("ScrollWeapon", 0f, 0.01f);
-        InvokeRepeating("GrabWeapon", 0f, 0.015f);
+        if (!isTuto)
+        {
+            InvokeRepeating("MouseScroll", 0f, 0.01f);
+            InvokeRepeating("ScrollWeapon", 0f, 0.01f);
+            InvokeRepeating("GrabWeapon", 0f, 0.015f);
+        }
     }
 
     // Update is called once per frame
@@ -226,7 +230,7 @@ public class WeaponController : MonoBehaviour
         currtenMunicion = weaponCurrten.currentMunition;                            //Munición del arma actual. Se asigna a la varible 'currtenMunicion'
         //Debug.Log("Munición del arma dejada " + currtenMunicion);
         getMunicion = municion;                                                     //Munición del arma en el suelo. Obtenida en OnTriggerEnter
-        Debug.Log("WeapongController: Municion del arma de suelo" + municion);
+        //Debug.Log("WeapongController: Municion del arma de suelo" + municion);
 
 
         //Dependiendo del arma que se recogerá se asigna la configuración deseada
@@ -304,7 +308,7 @@ public class WeaponController : MonoBehaviour
                 //Se obtiene el restante de munición y se almacena el isGetrNeMunicion. Se envia a OnTriggerStay()
                 isGetNewMunicion= true;
             }
-            Debug.Log("WeapongController: Munición devuelta: " + newMunicionActual);
+            //Debug.Log("WeapongController: Munición devuelta: " + newMunicionActual);
 
 
         }
@@ -327,7 +331,7 @@ public class WeaponController : MonoBehaviour
             PickUpController ra34 = other.GetComponent<PickUpController>();
             //Debug.Log("Munición actual " + ra34.currentMunicion);
             municion = ra34.currentMunicion;
-            Debug.Log("OnTriggerEnter: MUNICION DE ARMA EN SUELO " + municion);
+            //Debug.Log("OnTriggerEnter: MUNICION DE ARMA EN SUELO " + municion);
         }
 
         if (other.CompareTag("DroppedDC"))
@@ -360,7 +364,7 @@ public class WeaponController : MonoBehaviour
                 ra34.currentMunicion = newMunicionActual;
                 isGetNewMunicion = false;
             }
-            Debug.Log("STAY en RA");
+            //Debug.Log("STAY en RA");
             
             if (destroyWeapon)
             {
