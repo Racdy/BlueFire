@@ -111,6 +111,9 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (skysungController.isDead)
+            return;
+
         skysungRAInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(1);
         skysungDCInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(2);
 

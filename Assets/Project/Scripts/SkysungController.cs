@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Claims;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
@@ -33,6 +34,8 @@ public class SkysungController : MonoBehaviour
 
     public bool isTuto;
 
+    public bool isDead;
+    public bool dead;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,26 +47,44 @@ public class SkysungController : MonoBehaviour
 
         dobleJumpCount = 0;
         isAIM=false;
+
+        isDead=false;
+        dead = true ;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            if (dead)
+            {
+                StopAllCoroutines();
+                CancelInvoke();
+                StartCoroutine("Dead");
+            }
+            return;
+        }
+
         Movement();
+            
     }
+    public IEnumerator Dead()
+    {
+        dead = false;
+        skysungAnimator.SetBool("Death", true);
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
     public IEnumerator DashEnable()
     {
         dash = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         dash = true;
     }
 
-    public void Dead(float life)
-    {
-        skysungAnimator.SetTrigger("Death");
-        Debug.Log(life);
-    }
 
     public enum CameraSyle
     {
@@ -99,8 +120,14 @@ public class SkysungController : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up));
                 playerObj.forward = Vector3.Slerp(playerObj.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
+                if (isGrounded && dash)
+                    this.gameObject.SendMessage("EnableWalkSFx", SendMessageOptions.DontRequireReceiver);
+                else
+                    this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
+
                 if (Input.GetKeyDown(KeyCode.C) && dash && !isTuto)
                 {
+                    this.gameObject.SendMessage("PlayDashSFx", SendMessageOptions.DontRequireReceiver);
                     rb.AddForce(inputDir * 500, ForceMode.Impulse);
                     skysungAnimator.SetTrigger("Dash");
                     StartCoroutine("DashEnable");
@@ -110,8 +137,10 @@ public class SkysungController : MonoBehaviour
             }
             else
             {
+                this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetBool("Walk", false);
                 speed = 5f;
+                this.gameObject.SendMessage("WalkSpeed", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetInteger("Speed", 5);
             }
 
@@ -143,9 +172,13 @@ public class SkysungController : MonoBehaviour
 
             if ((Input.GetKeyDown(KeyCode.Space) && (isGrounded || dobleJump)))
             {
+                this.gameObject.SendMessage("PlayJumpSFx", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetTrigger("Jump");
                 if (dobleJumpCount > 0)
+                {
+                    this.gameObject.SendMessage("PlayDashSFx", SendMessageOptions.DontRequireReceiver);
                     ps.activate();
+                }
                 dobleJumpCount++;
                 rb.AddForce(new Vector3(0, forceJump, 0), ForceMode.Impulse);
                 
@@ -155,6 +188,7 @@ public class SkysungController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
             {
                 //skysungAnimator.SetTrigger("Run");
+                this.gameObject.SendMessage("RunSpeed", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetInteger("Speed", 10);
                 speed = 10f;
             }
@@ -174,11 +208,14 @@ public class SkysungController : MonoBehaviour
 
             if (combatDir != Vector3.zero)
             {
+                if (isGrounded)
+                    this.gameObject.SendMessage("EnableWalkSFx", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetBool("Walk", true);
 
             }
             else
             {
+                this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
                 skysungAnimator.SetBool("Walk", false);
             }
 

@@ -26,6 +26,10 @@ public class DroneBehaviour : MonoBehaviour
 
     public ParticleSystem spawnParticles;
 
+    public GameObject[] weaponDropped;
+
+    public bool dropped;
+
     // Start is called before the first frame update
 
     private void OnEnable()
@@ -48,6 +52,8 @@ public class DroneBehaviour : MonoBehaviour
         InvokeRepeating("FollowState", 0f, 0.5f);
 
         enableToShoot=true;
+
+        dropped = false;
     }
 
     void GeneratePatrolPosition()
@@ -138,6 +144,8 @@ public class DroneBehaviour : MonoBehaviour
             targetPoint = transform.position;
             StopAllCoroutines();
             CancelInvoke();
+            if(!dropped)
+                GetDrop();
         }
     }
 
@@ -179,6 +187,18 @@ public class DroneBehaviour : MonoBehaviour
         BulletTMP.GetComponent<Rigidbody>().velocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().AddForce((targetPoint - pointer.transform.position).normalized *bulletForce, ForceMode.Impulse);
+    }
+
+    public void GetDrop()
+    {
+        dropped = true;
+        int randomWeapon = Random.Range(0, 2);
+        int randomChance = Random.Range(0, 4);
+        if (randomChance == 1)
+        {
+            GameObject item = Instantiate(weaponDropped[randomWeapon], transform.position, Quaternion.identity);
+            item.transform.position = transform.position;
+        }
     }
 
 }

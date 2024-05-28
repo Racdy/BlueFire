@@ -68,6 +68,13 @@ public class Damage : MonoBehaviour
             currentShield -= damageAmount;
         else
             currentLife -= damageAmount;
+
+        if (currentLife < 0)
+        {
+            Death();
+            return;
+        }
+
         
         lifeBar.CurrentLife(currentLife/maxLife);
         shieldBar.CurrentShiedl(currentShield / maxShield);
@@ -110,6 +117,11 @@ public class Damage : MonoBehaviour
 
         // Asegúrate de que el valor final sea exacto
         //currentShield = maxShield;
+    }
+
+    public void Death()
+    {
+        skysung.isDead = true;
     }
 
 }

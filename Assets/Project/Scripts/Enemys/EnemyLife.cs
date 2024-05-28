@@ -13,12 +13,15 @@ public class EnemyLife : MonoBehaviour
     public int damageAcomulated;
     public bool isCover;
 
+    public CapsuleCollider capsulecollider;
+
     // Start is called before the first frame update
     void Start()
     {
         isDead = false;
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        capsulecollider = GetComponent<CapsuleCollider>();
     }
     
     public void TakeDamage(int damageAmount)
@@ -37,6 +40,7 @@ public class EnemyLife : MonoBehaviour
     {
         isDead = true;
         animator.SetBool("Death", true);
+        capsulecollider.enabled = false;
         yield return new WaitForSeconds(3f);
         ObjectPool.Instance.PoolGameObject(gameObject);
     }

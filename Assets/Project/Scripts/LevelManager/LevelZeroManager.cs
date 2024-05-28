@@ -5,10 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class LevelZeroManager : MonoBehaviour
 {
-    public int scene;
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("PlayerPrincipal"))
+        {
+            int scene = SceneManager.GetActiveScene().buildIndex + 1;
+            PlayerPrefs.SetInt("Level", scene);
             SceneManager.LoadScene(scene);
+        }
     }
 }

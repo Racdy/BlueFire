@@ -182,15 +182,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 477773328c245d44e953961aaaecba0a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.7785418
+      value: 7.0599546
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 477773328c245d44e953961aaaecba0a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3227291
+      value: 0.388
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 477773328c245d44e953961aaaecba0a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.117522
+      value: -4.3937683
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 477773328c245d44e953961aaaecba0a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -353,6 +353,10 @@ MonoBehaviour:
   bulletForce: 200
   enemyLife: {fileID: 0}
   spawnParticles: {fileID: 3332774842437533120}
+  weaponDropped:
+  - {fileID: 3858596534265694983, guid: ed4a7dc6779fb6a4f80c0593bf53e33e, type: 3}
+  - {fileID: 5451278174170560245, guid: 09dfd40827194ab49aded7f37ef3393a, type: 3}
+  dropped: 0
 --- !u!114 &322916827977273975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,6 +393,7 @@ MonoBehaviour:
   isDead: 0
   damageAcomulated: 0
   isCover: 0
+  capsulecollider: {fileID: 0}
 --- !u!1 &8712832952488139421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4482544433357325915, guid: 477773328c245d44e953961aaaecba0a, type: 3}

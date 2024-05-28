@@ -128,6 +128,8 @@ public class WeaponType : MonoBehaviour
 
         muzzleFlash.Play();
 
+        this.gameObject.SendMessage("PlaySFx", SendMessageOptions.DontRequireReceiver);
+
         readyToShoot = false;
         Ray rayShoot;
         if ((skysungRAInfoHold.IsName("IdleRifleA34") || skysungDCInfoHold.IsName("IdleDronCanon")
@@ -202,6 +204,7 @@ public class WeaponType : MonoBehaviour
     void Reload()
     {
         skysungAnimator.SetBool("Reload", true);
+        this.gameObject.SendMessage("PlayReloadSFx", SendMessageOptions.DontRequireReceiver);
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }

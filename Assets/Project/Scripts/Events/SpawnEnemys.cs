@@ -20,11 +20,11 @@ public class SpawnEnemys : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("PlayerPrincipal"))
-            StartCoroutine("Spawn");
+        if (other.CompareTag("PlayerPrincipal"))
+            Spawn();
 
     }
-    public IEnumerator Spawn()
+    public void Spawn()
     {
         droneCount = 0;
         sentinelCount = 0;
@@ -45,7 +45,7 @@ public class SpawnEnemys : MonoBehaviour
                 droneCount++;
                 if (droneCount == droneCountMax)
                     break;
-                yield return new WaitForSeconds(0.5f);
+                //yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -63,7 +63,7 @@ public class SpawnEnemys : MonoBehaviour
                 sentinelCount++;
                 if (sentinelCount == sentinelCountMax)
                     break;
-                yield return new WaitForSeconds(0.5f);
+                //yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -78,7 +78,7 @@ public class SpawnEnemys : MonoBehaviour
                 guardianCount++;
                 if (guardianCount == guardianCountMax)
                     break;
-                yield return new WaitForSeconds(0.5f);
+                //yield return new WaitForSeconds(0.5f);
             }
 
         }
