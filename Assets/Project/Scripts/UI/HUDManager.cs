@@ -83,10 +83,10 @@ public class HUDManager : MonoBehaviour
     public void ContinueGame()
     {
         CleanPanel();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
         HUDPanel.SetActive(true);
         Time.timeScale = 1.0f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void RestartGame()

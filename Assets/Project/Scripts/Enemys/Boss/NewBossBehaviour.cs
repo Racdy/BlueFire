@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class BossBehaviour : MonoBehaviour
+public class NewBossBehaviour : MonoBehaviour
 {
     public float maxHealth;
     private float currentHealth;
     public BossHUD lifeBossHUD;
-    public BossHeadRot bossBarrer;
 
     //public int scene;
 
@@ -23,9 +22,6 @@ public class BossBehaviour : MonoBehaviour
     {
         currentHealth -= damageAmount;
         lifeBossHUD.CurrentLifeHUD(currentHealth/ maxHealth);
-
-        if (currentHealth <= 50)
-            bossBarrer.rotationSpeed = 37;
 
         if (currentHealth <= 0)
             StartCoroutine("Death");

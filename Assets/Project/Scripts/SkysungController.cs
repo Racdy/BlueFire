@@ -69,6 +69,7 @@ public class SkysungController : MonoBehaviour
         Movement();
             
     }
+
     public IEnumerator Dead()
     {
         dead = false;
