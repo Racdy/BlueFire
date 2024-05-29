@@ -64,13 +64,13 @@ public class WeaponType : MonoBehaviour
     //en caso de recoger la misma arma
     public float PickUpMunicion(float getMunicion)
     {
-        Debug.Log("PickUpMunicion (): MUNICIÓN ACTUAL DEL ARMA ANTES DE RECARGAR " + currentMunition);
+        //Debug.Log("PickUpMunicion (): MUNICIÓN ACTUAL DEL ARMA ANTES DE RECARGAR " + currentMunition);
         //La munición actual del arma equipada se le suma la munición del arma soltada
         currentMunition += getMunicion;
-        Debug.Log("PickUpMunicion: Munición aumentada " + currentMunition);
+        //Debug.Log("PickUpMunicion: Munición aumentada " + currentMunition);
         //Se obtiene el sobrante del arma para el arma del suelo y se almacena en 'getNewMunicion'
         getNewMunicion = currentMunition - maxMunition;
-        Debug.Log("PickUpMunicion: Munición devuelta (en PickUp) " + getNewMunicion);
+        //Debug.Log("PickUpMunicion: Munición devuelta (en PickUp) " + getNewMunicion);
         //Si la nueva cantidad de munición del arma equipada es mayor a la munición actual se decide limitarla a la cantidad máxima de munición
         if (currentMunition > maxMunition)
             currentMunition = maxMunition;

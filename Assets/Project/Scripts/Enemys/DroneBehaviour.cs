@@ -54,6 +54,7 @@ public class DroneBehaviour : MonoBehaviour
         enableToShoot=true;
 
         dropped = false;
+        this.gameObject.SendMessage("WalkSpeed", SendMessageOptions.DontRequireReceiver);
     }
 
     void GeneratePatrolPosition()
@@ -81,9 +82,9 @@ public class DroneBehaviour : MonoBehaviour
 
         if (distanceToPlayer < 2)
             droneState = DroneState.HIT;
-        else if (distanceToPlayer < 10)
-            StartCoroutine("StayState");
-        else if (distanceToPlayer < 30 || distanceToPlayer < 7)
+        /*else if (distanceToPlayer < 10)
+            StartCoroutine("StayState");*/
+        else if (distanceToPlayer < 30)
             droneState = DroneState.FOLLOW;
         else
             droneState = DroneState.PATROL;
@@ -94,13 +95,15 @@ public class DroneBehaviour : MonoBehaviour
         if (droneState != DroneState.HIT)
             return;
 
+        
         transform.LookAt(playerTransform);
-
+        this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
+        this.gameObject.SendMessage("PlayReloadSFx", SendMessageOptions.DontRequireReceiver);      
         enableIK = false;
         droneAnimator.SetTrigger("Hit");
     }
 
-    IEnumerator StayState()
+    /*IEnumerator StayState()
     {
         agent.speed = 4f;
         float patroX = Random.Range(-patrolArea.x, patrolArea.x);
@@ -110,7 +113,7 @@ public class DroneBehaviour : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         //droneState = DroneState.PATROL;
-    }
+    }*/
 
     IEnumerator ShootState()
     {
@@ -127,6 +130,8 @@ public class DroneBehaviour : MonoBehaviour
         if (droneState != DroneState.FOLLOW)
             return;
 
+        this.gameObject.SendMessage("EnableWalkSFx", SendMessageOptions.DontRequireReceiver);
+
         enableIK = true;
         agent.speed = 6f;
         agent.stoppingDistance = 2f;
@@ -141,6 +146,8 @@ public class DroneBehaviour : MonoBehaviour
 
         if (enemyLife.isDead)
         {
+            this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
+            enableIK = false;
             targetPoint = transform.position;
             StopAllCoroutines();
             CancelInvoke();
@@ -187,6 +194,8 @@ public class DroneBehaviour : MonoBehaviour
         BulletTMP.GetComponent<Rigidbody>().velocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().AddForce((targetPoint - pointer.transform.position).normalized *bulletForce, ForceMode.Impulse);
+
+        this.gameObject.SendMessage("PlaySFx", SendMessageOptions.DontRequireReceiver);
     }
 
     public void GetDrop()
@@ -196,7 +205,7 @@ public class DroneBehaviour : MonoBehaviour
         int randomChance = Random.Range(0, 4);
         if (randomChance == 1)
         {
-            GameObject item = Instantiate(weaponDropped[randomWeapon], transform.position, Quaternion.identity);
+            GameObject item = Instantiate(weaponDropped[randomWeapon]);
             item.transform.position = transform.position;
         }
     }

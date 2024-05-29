@@ -68,6 +68,9 @@ public class Damage : MonoBehaviour
             currentShield -= damageAmount;
         else
             currentLife -= damageAmount;
+        
+        lifeBar.CurrentLife(currentLife/maxLife);
+        shieldBar.CurrentShiedl(currentShield / maxShield);
 
         if (currentLife < 0)
         {
@@ -75,11 +78,7 @@ public class Damage : MonoBehaviour
             return;
         }
 
-        
-        lifeBar.CurrentLife(currentLife/maxLife);
-        shieldBar.CurrentShiedl(currentShield / maxShield);
-
-        if(!isTuto)
+        if (!isTuto)
             Invoke("ReShieldEnable", 7f);
     }
 

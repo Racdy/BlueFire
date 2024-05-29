@@ -15,6 +15,7 @@ public class HUDManager : MonoBehaviour
     public GameObject audioPanel;
     public GameObject controllerPanel;
     public GameObject cameraPanel;
+    public GameObject restartPanel;
 
     public AudioMixer audioMixer;
 
@@ -60,6 +61,7 @@ public class HUDManager : MonoBehaviour
         HUDPanel.SetActive(false);
         exitPanel.SetActive(false);
         optionsPanel.SetActive(false);
+        restartPanel.SetActive(false);
     }
 
     public void OptionsCleanPanel()
@@ -85,6 +87,24 @@ public class HUDManager : MonoBehaviour
         Cursor.visible = false;
         HUDPanel.SetActive(true);
         Time.timeScale = 1.0f;
+    }
+
+    public void RestartGame()
+    {
+        CleanPanel();
+        restartPanel.SetActive(true);
+    }
+
+    public void RestarYes()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(scene);
+    }
+
+    public void RestarNo()
+    {
+        Pause();
     }
 
     public void Options()
@@ -216,7 +236,7 @@ public class HUDManager : MonoBehaviour
     {
         invAxisXValue = toggleValue;
 
-        Debug.Log("invAxisXValue" + invAxisXValue);
+        //Debug.Log("invAxisXValue" + invAxisXValue);
 
         if (invAxisXValue)
             PlayerPrefs.SetInt("AimAxisX",1);
@@ -252,6 +272,9 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
+            PlayerPrefs.SetInt("AimAxisX", 0);
+            PlayerPrefs.SetInt("AimAxisY", 1);
+
             invAxisXValue = false;
             invAxisYValue = true;
 

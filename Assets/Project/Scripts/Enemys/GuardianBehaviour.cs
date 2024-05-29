@@ -60,6 +60,7 @@ public class GuardianBehaviour : MonoBehaviour
         isHitting = false;
         
         playerDetected = false;
+        this.gameObject.SendMessage("WalkSpeed", SendMessageOptions.DontRequireReceiver);
     }
 
     // Update is called once per frame
@@ -69,6 +70,7 @@ public class GuardianBehaviour : MonoBehaviour
         guardianAnimator.SetFloat("Speed", agent.velocity.sqrMagnitude);
 
         if(enemyLife.isDead) {
+            this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
             targetPoint = transform.position;
             StopAllCoroutines();
             CancelInvoke();
@@ -122,6 +124,8 @@ public class GuardianBehaviour : MonoBehaviour
         if (guardianState != GuardianState.FOLLOW || isHitting)
             return;
 
+        this.gameObject.SendMessage("EnableWalkSFx", SendMessageOptions.DontRequireReceiver);
+
         playerDetected = true;
         agent.speed = 5f;
         agent.stoppingDistance = 2f;
@@ -162,12 +166,14 @@ public class GuardianBehaviour : MonoBehaviour
         if (guardianState != GuardianState.HIT || isHitting)
             yield return new WaitForSeconds(0.5f);
 
+        this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
+
         targetPoint = transform.position;
 
         isHitting = true;
         int hitIndex = Random.Range(0, 3);
         hit = hitType[hitIndex];
-
+        this.gameObject.SendMessage("PlayJumpSFx", SendMessageOptions.DontRequireReceiver);
         guardianAnimator.SetTrigger(hit);
         yield return new WaitForSeconds(2f);
 

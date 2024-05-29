@@ -7,7 +7,7 @@ public class BossBehaviour : MonoBehaviour
 {
     public int maxHealth;
     public int currentHealth;
-    public int scene;
+    //public int scene;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +26,8 @@ public class BossBehaviour : MonoBehaviour
     IEnumerator Death()
     {
         yield return new WaitForSeconds(3f);
+        int scene = SceneManager.GetActiveScene().buildIndex + 1;
+        PlayerPrefs.SetInt("Level", scene);
         SceneManager.LoadScene(scene);
     }
 }

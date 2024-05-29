@@ -46,6 +46,7 @@ public class SentinelBehaviour : MonoBehaviour
         InvokeRepeating("FollowState", 0f, 0.5f);
 
         enableToShoot = true;
+        this.gameObject.SendMessage("WalkSpeed", SendMessageOptions.DontRequireReceiver);
     }
 
     // Update is called once per frame
@@ -56,7 +57,8 @@ public class SentinelBehaviour : MonoBehaviour
 
         if (enemyLife.isDead)
         {
-            targetPoint= transform.position;
+            this.gameObject.SendMessage("DisableWalkSFx", SendMessageOptions.DontRequireReceiver);
+            targetPoint = transform.position;
             StopAllCoroutines();
             CancelInvoke();
         }
@@ -102,7 +104,7 @@ public class SentinelBehaviour : MonoBehaviour
     {
         if (sentinelState != SentinelState.FOLLOW)
             return;
-
+        this.gameObject.SendMessage("EnableWalkSFx", SendMessageOptions.DontRequireReceiver);
         agent.speed = 8f;
         agent.stoppingDistance = 2f;
         targetPoint = transform.position - playerTransform.position;
@@ -145,5 +147,7 @@ public class SentinelBehaviour : MonoBehaviour
         BulletTMP.GetComponent<Rigidbody>().velocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         BulletTMP.GetComponent<Rigidbody>().AddForce((targetPoint - pointer.transform.position).normalized * bulletForce, ForceMode.Impulse);
+
+        this.gameObject.SendMessage("PlayJumpSFx", SendMessageOptions.DontRequireReceiver);
     }
 }
