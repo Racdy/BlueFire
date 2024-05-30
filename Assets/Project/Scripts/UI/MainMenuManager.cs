@@ -52,6 +52,8 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         continueCamera.Priority = 0;
         restartCamera.Priority = 0;
 
@@ -103,6 +105,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void ContinueGameYes()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         CleanPanel();
         mainMenuPanel.SetActive(false);
         continueCamera.Priority = 12;
@@ -127,6 +131,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewGameYes()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         CleanPanel();
         mainMenuPanel.SetActive(false);
         restartCamera.Priority = 12;

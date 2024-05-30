@@ -112,7 +112,10 @@ public class WeaponController : MonoBehaviour
     void Update()
     {
         if (skysungController.isDead)
+        {
+            CancelAIM();
             return;
+        }
 
         skysungRAInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(1);
         skysungDCInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(2);
