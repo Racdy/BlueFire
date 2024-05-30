@@ -59,6 +59,7 @@ public class SkysungController : MonoBehaviour
         {
             if (dead)
             {
+                currentCamera = CameraSyle.BASIC;
                 StopAllCoroutines();
                 CancelInvoke();
                 StartCoroutine("Dead");

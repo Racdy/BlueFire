@@ -1596,7 +1596,7 @@ MonoBehaviour:
   m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 456
   m_MinimumDistanceFromTarget: 0.1
   m_AvoidObstacles: 1
   m_DistanceLimit: 0
@@ -2802,7 +2802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecc4bea12f90a549954ac172d5a27fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDamage: 25
+  hitDamage: 75
 --- !u!82 &551297066
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5711,7 +5711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecc4bea12f90a549954ac172d5a27fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDamage: 25
+  hitDamage: 75
 --- !u!82 &1051457458
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6713,7 +6713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecc4bea12f90a549954ac172d5a27fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDamage: 25
+  hitDamage: 75
 --- !u!82 &1360394813
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8251,7 +8251,7 @@ MonoBehaviour:
   m_VerticalAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 1.689313
+    m_MaxSpeed: 2
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -8275,7 +8275,7 @@ MonoBehaviour:
   m_HorizontalAxis:
     Value: 0
     m_SpeedMode: 1
-    m_MaxSpeed: 1.590749
+    m_MaxSpeed: 2
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -9735,7 +9735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecc4bea12f90a549954ac172d5a27fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDamage: 25
+  hitDamage: 75
 --- !u!82 &1977450784
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9951,7 +9951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eecc4bea12f90a549954ac172d5a27fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDamage: 25
+  hitDamage: 75
 --- !u!82 &2049104981
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10267,8 +10267,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 191678329}
   - {fileID: 2092885374}
+  - {fileID: 191678329}
   - {fileID: 2125624249}
   - {fileID: 293802855}
   - {fileID: 1251949385}
@@ -10543,7 +10543,7 @@ MonoBehaviour:
   m_IgnoreTag: Player
   m_TransparentLayers:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 456
   m_MinimumDistanceFromTarget: 0.1
   m_AvoidObstacles: 1
   m_DistanceLimit: 0

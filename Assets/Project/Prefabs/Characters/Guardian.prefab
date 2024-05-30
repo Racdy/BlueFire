@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 524038265000027308}
   - component: {fileID: 7000795864441537849}
   - component: {fileID: 2050092674053754826}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4301811290119396032}
   - component: {fileID: 8123917783505392063}
   - component: {fileID: 2672222705696106716}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SwordCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,13 +272,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2428338827232602468, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -1020483965028421285, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
       propertyPath: m_Name
       value: Guardian
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4317813630455717085, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 90ac938f1c2f3f349a2a98d518adc538, type: 3}
       propertyPath: m_Controller
@@ -592,6 +608,10 @@ PrefabInstance:
     - target: {fileID: 7379076528404012792, guid: cbe7a98c67c534b4db7b89326db53c5c, type: 3}
       propertyPath: m_Name
       value: EnemySpawn1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379076528404012792, guid: cbe7a98c67c534b4db7b89326db53c5c, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

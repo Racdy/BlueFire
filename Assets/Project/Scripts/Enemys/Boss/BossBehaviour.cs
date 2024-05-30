@@ -24,11 +24,14 @@ public class BossBehaviour : MonoBehaviour
         currentHealth -= damageAmount;
         lifeBossHUD.CurrentLifeHUD(currentHealth/ maxHealth);
 
-        if (currentHealth <= 50)
-            bossBarrer.rotationSpeed = 37;
+        if (currentHealth <= 100)
+            bossBarrer.rotationSpeed = 50;
 
         if (currentHealth <= 0)
+        {
             StartCoroutine("Death");
+            bossBarrer.rotationSpeed = 0;
+        }
 
     }
     IEnumerator Death()

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -46,8 +47,16 @@ public class MainMenuManager : MonoBehaviour
 
     public int scene;
 
+    public CinemachineVirtualCamera continueCamera;
+    public CinemachineVirtualCamera restartCamera;
+
     private void Start()
     {
+        continueCamera.Priority = 0;
+        restartCamera.Priority = 0;
+
+        mainMenuPanel.SetActive(true);
+
         LoadSettingsLevel();
         LoadAudioSetting();
         LoadAimCamSen();
@@ -94,6 +103,15 @@ public class MainMenuManager : MonoBehaviour
 
     public void ContinueGameYes()
     {
+        CleanPanel();
+        mainMenuPanel.SetActive(false);
+        continueCamera.Priority = 12;
+        StartCoroutine("LoadContinue");
+    }
+
+    public IEnumerator LoadContinue()
+    {
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(scene);
     }
 
@@ -109,7 +127,16 @@ public class MainMenuManager : MonoBehaviour
 
     public void NewGameYes()
     {
+        CleanPanel();
+        mainMenuPanel.SetActive(false);
+        restartCamera.Priority = 12;
         PlayerPrefs.SetInt("Level", 1);
+        StartCoroutine("LoadRestart");
+    }
+
+    public IEnumerator LoadRestart()
+    {
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(1);
     }
 
