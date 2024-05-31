@@ -304,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allMunicion: 50
   currentMunicion: 100
+  bulletsLeftDropped: 30
   weaponType: RifleA34
   ignoreLayer:
     serializedVersion: 2

@@ -15,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject AudioPanel;
     public GameObject ControllerPanel;
     public GameObject CameraPanel;
+    public GameObject RestablecerPanel;
 
     public GameObject CreditsPanel;
     public GameObject ExitGamePanel;
@@ -52,6 +53,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void Start()
     {
+
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         continueCamera.Priority = 0;
@@ -75,8 +77,8 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             continueEnableButton.SetActive(false);
-            scene = 1;
-            PlayerPrefs.SetInt("Level", 1);
+            /*scene = 1;
+            PlayerPrefs.SetInt("Level", 1);*/
         }
     }
 
@@ -179,6 +181,22 @@ public class MainMenuManager : MonoBehaviour
     public void OptionsExit()
     {
         CleanPanel();
+    }
+
+    public void OptionRest()
+    {
+        RestablecerPanel.SetActive(true);
+    }
+
+    public void OptionResYes()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(0);
+    }
+
+    public void OptionsResNo()
+    {
+        RestablecerPanel.SetActive(false);
     }
 
     public void Credits()
@@ -314,6 +332,9 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
+            PlayerPrefs.SetInt("AimAxisX", 0);
+            PlayerPrefs.SetInt("AimAxisY", 1);
+
             invAxisXValue = false;
             invAxisYValue = true;
 

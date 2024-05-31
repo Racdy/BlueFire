@@ -9,6 +9,7 @@ public class BossBehaviour : MonoBehaviour
     private float currentHealth;
     public BossHUD lifeBossHUD;
     public BossHeadRot bossBarrer;
+    public GameObject[] explosionParticles;
 
     //public int scene;
 
@@ -29,6 +30,7 @@ public class BossBehaviour : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            StartCoroutine("Explosions");
             StartCoroutine("Death");
             bossBarrer.rotationSpeed = 0;
         }
@@ -36,9 +38,20 @@ public class BossBehaviour : MonoBehaviour
     }
     IEnumerator Death()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         int scene = SceneManager.GetActiveScene().buildIndex + 1;
         PlayerPrefs.SetInt("Level", scene);
         SceneManager.LoadScene(scene);
+    }
+
+    IEnumerator Explosions()
+    {
+        for (int i = 0; i < explosionParticles.Length; i++)
+        {
+            explosionParticles[i].SetActive(true);
+            explosionParticles[i].GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(0.5f);
+        }
+        
     }
 }

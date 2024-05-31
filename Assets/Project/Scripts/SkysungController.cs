@@ -1,11 +1,8 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Claims;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.U2D;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+
 
 public class SkysungController : MonoBehaviour
 {
@@ -36,6 +33,8 @@ public class SkysungController : MonoBehaviour
 
     public bool isDead;
     public bool dead;
+
+    public bool pause;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +49,7 @@ public class SkysungController : MonoBehaviour
 
         isDead=false;
         dead = true ;
+        pause = false;
     }
 
     // Update is called once per frame
@@ -65,6 +65,9 @@ public class SkysungController : MonoBehaviour
             }
             return;
         }
+
+        if (pause)
+            return;
 
         Movement();
             

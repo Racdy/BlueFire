@@ -10,10 +10,15 @@ public class HitController : MonoBehaviour
 
     public bool hitEnable;
 
+    public AudioSource puchSound;
+
+    public bool pause;
+
     private void Start()
     {
         weaponController = GetComponent<WeaponController>();
         skysungController = GetComponent<SkysungController>();
+        pause = false;
     }
 
     void Update()
@@ -23,12 +28,17 @@ public class HitController : MonoBehaviour
         else
             hitEnable = false;
 
+        if (pause)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Mouse0) && hitEnable)
         {
             skysungAnimator.SetTrigger("Hit");
+            puchSound.Play();
         }
 
     }
+
 
 
 }

@@ -52,12 +52,15 @@ public class WeaponType : MonoBehaviour
     private Vector3 spreedDir;
     public float spreed;
 
+    public bool pause;
+
     // Start is called before the first frame update
     void Start()
     {
         currentMunition = maxMunition;
         bullestLeft = magazineSize;
         readyToShoot = true;
+        pause = false;
     }
 
     //Método que se encarga de calcular cuanta munición debe recoger el arma
@@ -82,6 +85,9 @@ public class WeaponType : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (pause)
+            return;
 
         skysungRAInfoHold= skysungAnimator.GetCurrentAnimatorStateInfo(1);
         skysungDCInfoHold = skysungAnimator.GetCurrentAnimatorStateInfo(2);

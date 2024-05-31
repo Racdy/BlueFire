@@ -40,6 +40,10 @@ public class HUDManager : MonoBehaviour
     public int invAxisIntValueX;
     public int invAxisIntValueY;
 
+    public GameObject player;
+    public WeaponType RA34WeaponType;
+    public WeaponType DCWeaponType;
+
     private void Start()
     {
         LoadAudioSetting();
@@ -53,6 +57,23 @@ public class HUDManager : MonoBehaviour
         {
             Pause();
         }
+    }
+
+    public void DisablePlayer()
+    {
+        player.GetComponent<HitController>().pause = true;
+        player.GetComponent<WeaponController>().pause = true;
+        player.GetComponent<SkysungController>().pause = true;
+        RA34WeaponType.pause = true;
+        DCWeaponType.pause = true;
+    }
+    public void EnablePlayer()
+    {
+        player.GetComponent<HitController>().pause = false;
+        player.GetComponent<WeaponController>().pause = false;
+        player.GetComponent<SkysungController>().pause = false;
+        RA34WeaponType.pause = false;
+        DCWeaponType.pause = false;
     }
 
     public void CleanPanel()
@@ -74,19 +95,24 @@ public class HUDManager : MonoBehaviour
     public void Pause()
     {
         CleanPanel();
+        DisablePlayer();
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         pausePanel.SetActive(true);
         Time.timeScale = 0.0f;
+
     }
 
     public void ContinueGame()
     {
         CleanPanel();
+        EnablePlayer();
         HUDPanel.SetActive(true);
         Time.timeScale = 1.0f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        
     }
 
     public void RestartGame()
@@ -97,6 +123,7 @@ public class HUDManager : MonoBehaviour
 
     public void RestarYes()
     {
+        EnablePlayer();
         int scene = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1.0f;
         SceneManager.LoadScene(scene);

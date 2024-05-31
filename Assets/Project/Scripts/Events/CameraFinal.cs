@@ -26,7 +26,8 @@ public class CameraFinal : MonoBehaviour
     public IEnumerator LoadMainMenu()
     {
         yield return new WaitForSecondsRealtime(10f);
-        brain.m_IgnoreTimeScale = false; ;
+        Time.timeScale = 1f;
+        brain.m_IgnoreTimeScale = false; 
         SceneManager.LoadScene(0);
     }
 }

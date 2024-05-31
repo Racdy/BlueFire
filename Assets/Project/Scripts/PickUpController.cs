@@ -7,6 +7,7 @@ public class PickUpController : MonoBehaviour
 {
     public float allMunicion; //Toda la munición del arma en suelo
     public float currentMunicion; //La munición actual con la que se quedó el arma
+    public float bulletsLeftDropped;
 
 
     private BoxCollider col;
